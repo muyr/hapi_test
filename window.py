@@ -6,23 +6,14 @@
 # Email : muyanru345@163.com
 ###################################################################
 
-from dayu_widgets.qt import *
-from dayu_widgets import *
-from HAPI import MAPI
-from log_text_edit import MLogTextEdit
-from hdata import ParmType
-from MColorWidget import MColorWidget
-from MFloatWidget import MFloatWidget
-from MIntWidget import MIntWidget
-from MParameterViewer import MParameterViewer
 import traceback
-WIDGET_MAP = {
-    ParmType.INT: (MIntWidget, 'setValue'),
-    ParmType.FLOAT: (MFloatWidget, 'setValue'),
-    ParmType.FOLDER: (MLineEdit, 'setText'),
-    ParmType.TOGGLE: (MSwitch, 'setChecked'),
-    ParmType.COLOR: (MColorWidget, 'setValue')
-}
+
+from HAPI import MAPI
+from dayu_widgets import *
+from dayu_widgets.qt import *
+from log_text_edit import MLogTextEdit
+from parameter_viewer import MParameterViewer
+
 
 class MCookThread(QThread):
     def __init__(self, hapi, parent=None):
@@ -131,7 +122,7 @@ class MyHoudiniEngineApp(QWidget):
         main_lay.addWidget(splitter)
 
         geo = QApplication.desktop().screenGeometry()
-        self.setGeometry(geo.width() / 4, geo.height() / 4, geo.width()/2, geo.height()/2)
+        self.setGeometry(geo.width() / 4, geo.height() / 4, geo.width() / 2, geo.height() / 2)
 
         self.cook_thread = None
         self.node_id = None
@@ -172,7 +163,7 @@ class MyHoudiniEngineApp(QWidget):
             instance_result = self.hapi.instance_hda(hda_name)
             self.node_id = instance_result.new_node_id
             self.log_text_edit.success(u'Instance "{}" success'.format(hda_name))
-            asset_info =  self.hapi.get_asset_info(self.node_id)
+            asset_info = self.hapi.get_asset_info(self.node_id)
             self.parm_viewer.set_node(asset_info.nodeId)
             self.parm_viewer.set_client(self.hapi)
             self.parm_viewer.refresh()
@@ -196,8 +187,8 @@ class MyHoudiniEngineApp(QWidget):
             self.hapi.disconnect()
         return super(MyHoudiniEngineApp, self).closeEvent(*args, **kwargs)
 
-if __name__ == '__main__':
 
+if __name__ == '__main__':
     import sys
     from dayu_widgets import dayu_theme
 
